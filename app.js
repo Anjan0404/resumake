@@ -88,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadUserResumes();
     switchView('dashboard-section');
 }
-}
-
 // Global View Switcher
 function switchView(viewId) {
     document.querySelectorAll('.view-section').forEach(section => {
