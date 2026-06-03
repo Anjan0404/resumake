@@ -84,16 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupThemeToggle();
 });
 
-function initApp() {
-    // Check if session is active
-    if (Auth.isAuthenticated()) {
-        const user = Auth.getCurrentUser();
-        document.getElementById('user-display-name').textContent = user.name;
-        switchView('dashboard-section');
-        loadUserResumes();
-    } else {
-        switchView('auth-section');
-    }
+    function initApp() {
+    createNewResume();
 }
 
 // Global View Switcher
@@ -321,8 +313,6 @@ function handleLogin(e) {
 }
 
 function handleLogout() {
-    Auth.logout();
-    switchView('auth-section');
     activeResume = null;
 }
 
@@ -330,8 +320,7 @@ function handleLogout() {
 // DASHBOARD LOGIC (RESUMES CRUD)
 // ==========================================================================
 function getUserResumesKey() {
-    const user = Auth.getCurrentUser();
-    return user ? `resumake_resumes_${user.id}` : null;
+    return 'resumake_resumes';
 }
 
 function loadUserResumes() {
