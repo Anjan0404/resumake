@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResuMake - Modern Resume Builder</title>
+    <!-- Google Fonts: Inter (UI), Outfit (Creative Headers), Playfair Display (Serif Classic) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- html2pdf.js for PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app">
+        <!-- Toast Notification System -->
+        <div id="toast-container" class="toast-container"></div>
+
+        <!-- AUTH SECTION -->
+        <section id="auth-section" class="view-section active">
+            <div class="auth-wrapper">
+                <div class="auth-brand">
+                    <div class="brand-logo">
+                        <i data-lucide="file-badge"></i>
+                    </div>
+                    <h1>ResuMake</h1>
+                    <p>Build stunning, recruiter-ready resumes in minutes.</p>
+                </div>
+                
+                <div class="auth-card">
+                    <!-- Tabs -->
+                    <div class="auth-tabs">
+                        <button id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                        <button id="tab-register" class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="login-form" class="auth-form active">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="mail"></i>
+                                <input type="email" id="login-email" required placeholder="name@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="lock"></i>
+                                <input type="password" id="login-password" required placeholder="••••••••">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span>Sign In</span>
+                            <i data-lucide="arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="register-form" class="auth-form">
+                        <div class="form-group">
+                            <label for="register-name">Full Name</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="user"></i>
+                                <input type="text" id="register-name" required placeholder="John Doe">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email Address</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="mail"></i>
+                                <input type="email" id="register-email" required placeholder="name@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Password</label>
+                            <div class="input-wrapper">
+                                <i data-lucide="lock"></i>
+                                <input type="password" id="register-password" required placeholder="Min 6 characters">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <span>Create Account</span>
+                            <i data-lucide="user-plus"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- DASHBOARD SECTION -->
+        <section id="dashboard-section" class="view-section">
+            <header class="app-header">
+                <div class="header-logo">
+                    <i data-lucide="file-badge"></i>
+                    <span>ResuMake</span>
+                </div>
+                <div class="header-user">
+                    <span class="user-welcome">Welcome, <strong id="user-display-name">User</strong></span>
+                    <button id="btn-theme-toggle-dash" class="btn btn-icon btn-outline" title="Toggle Theme">
+                        <i data-lucide="sun"></i>
+                    </button>
+                    <button id="btn-logout" class="btn btn-icon btn-outline-danger" title="Logout">
+                        <i data-lucide="log-out"></i>
+                    </button>
+                </div>
+            </header>
+
+            <main class="dashboard-content">
+                <div class="dashboard-hero">
+                    <div>
+                        <h1>Your Resumes</h1>
+                        <p>Create, edit, and export your professional resumes.</p>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <label for="input-import-backup" class="btn btn-outline cursor-pointer" title="Upload JSON Backup">
+                            <i data-lucide="upload-cloud"></i>
+                            <span>Import Backup</span>
+                        </label>
+                        <input type="file" id="input-import-backup" accept=".json" class="hidden">
+                        <button id="btn-new-resume" class="btn btn-primary">
+                            <i data-lucide="plus"></i>
+                            <span>Create New Resume</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resumes Grid -->
+                <div id="resumes-grid" class="resumes-grid">
+                    <!-- Resumes will be injected dynamically -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="empty-state" class="empty-state hidden">
+                    <div class="empty-icon">
+                        <i data-lucide="file-text"></i>
+                    </div>
+                    <h2>No Resumes Yet</h2>
+                    <p>Get started by creating your very first professional resume.</p>
+                    <button class="btn btn-primary" onclick="createNewResume()">
+                        <i data-lucide="plus"></i>
+                        <span>Create New Resume</span>
+                    </button>
+                </div>
+            </main>
+        </section>
+
+        <!-- EDITOR SECTION -->
+        <section id="editor-section" class="view-section">
+            <header class="editor-header">
+                <div class="editor-header-left">
+                    <button id="btn-back-dashboard" class="btn btn-outline">
+                        <i data-lucide="arrow-left"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <input type="text" id="resume-title-input" class="resume-title-input" value="Untitled Resume">
+                </div>
+                <div class="editor-header-right">
+                    <button id="btn-theme-toggle-edit" class="btn btn-icon btn-outline" title="Toggle Theme">
+                        <i data-lucide="sun"></i>
+                    </button>
+                    <!-- Accent Color Selector -->
+                    <div class="accent-selector">
+                        <span>Accent:</span>
+                        <div class="accent-pills">
+                            <button class="accent-pill" data-accent="indigo" style="background-color: #6366f1;" title="Indigo"></button>
+                            <button class="accent-pill" data-accent="violet" style="background-color: #8b5cf6;" title="Violet"></button>
+                            <button class="accent-pill" data-accent="emerald" style="background-color: #10b981;" title="Emerald"></button>
+                            <button class="accent-pill" data-accent="amber" style="background-color: #f59e0b;" title="Amber"></button>
+                            <button class="accent-pill" data-accent="crimson" style="background-color: #e11d48;" title="Crimson"></button>
+                            <button class="accent-pill" data-accent="slate" style="background-color: #475569;" title="Slate"></button>
+                            <button class="accent-pill" data-accent="blue" style="background-color: #0284c7;" title="Blue"></button>
+                        </div>
+                    </div>
+                    <div class="template-selector">
+                        <label for="template-select">Template:</label>
+                        <select id="template-select" class="select-input">
+                            <option value="modern">Sleek Modern</option>
+                            <option value="creative">Creative Timeline</option>
+                            <option value="executive">Executive Elite</option>
+                            <option value="tech">Tech Vanguard</option>
+                        </select>
+                    </div>
+                    <button id="btn-backup-json" class="btn btn-outline" title="Download JSON Backup">
+                        <i data-lucide="download-cloud"></i>
+                        <span>Backup JSON</span>
+                    </button>
+                    <button id="btn-download-pdf" class="btn btn-primary">
+                        <i data-lucide="download"></i>
+                        <span>Download PDF</span>
+                    </button>
+                </div>
+            </header>
+
+            <div class="editor-body">
+                <!-- Left Panel: Form Sections -->
+                <div class="editor-sidebar">
+                    <!-- Section Accordion -->
+                    <div class="accordion">
+                        
+                        <!-- 1. Personal Details -->
+                        <div class="accordion-item active" data-section="personal">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="user"></i>
+                                    <span>Personal Details</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="profile-photo-container">
+                                    <div class="photo-preview-wrapper">
+                                        <img id="photo-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=256&h=256&fit=crop" alt="Profile Photo">
+                                        <button type="button" id="btn-remove-photo" class="btn-remove-photo" title="Remove Photo">
+                                            <i data-lucide="x"></i>
+                                        </button>
+                                    </div>
+                                    <div class="photo-upload-controls">
+                                        <label for="photo-upload" class="btn btn-outline btn-sm cursor-pointer">
+                                            <i data-lucide="upload"></i>
+                                            <span>Upload Photo</span>
+                                        </label>
+                                        <input type="file" id="photo-upload" accept="image/*" class="hidden">
+                                        <p class="help-text">JPG or PNG. Max 2MB.</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group col-6">
+                                        <label for="input-fullName">Full Name</label>
+                                        <input type="text" id="input-fullName" class="form-control" placeholder="e.g. John Doe">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="input-jobTitle">Job Title</label>
+                                        <input type="text" id="input-jobTitle" class="form-control" placeholder="e.g. Senior Software Engineer">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="input-email">Email</label>
+                                        <input type="email" id="input-email" class="form-control" placeholder="e.g. john@example.com">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="input-phone">Phone</label>
+                                        <input type="tel" id="input-phone" class="form-control" placeholder="e.g. +1 555 123 4567">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="input-location">Location</label>
+                                        <input type="text" id="input-location" class="form-control" placeholder="e.g. New York, NY">
+                                    </div>
+                                    <div class="form-group col-6">
+                                        <label for="input-website">Website/LinkedIn</label>
+                                        <input type="url" id="input-website" class="form-control" placeholder="e.g. linkedin.com/in/johndoe">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Summary -->
+                        <div class="accordion-item" data-section="summary">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="file-edit"></i>
+                                    <span>Professional Summary</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div class="form-group">
+                                    <label for="input-summary">Write a short, impactful professional summary...</label>
+                                    <textarea id="input-summary" rows="5" class="form-control textarea" placeholder="Highly motivated engineer with 5+ years of experience building high-performance web applications..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3. Work Experience -->
+                        <div class="accordion-item" data-section="experience">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="briefcase"></i>
+                                    <span>Work Experience</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="experience-list" class="repeater-list">
+                                    <!-- Dynamic work experience blocks here -->
+                                </div>
+                                <button type="button" id="btn-add-experience" class="btn btn-outline btn-block mt-3">
+                                    <i data-lucide="plus"></i>
+                                    <span>Add Work Experience</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 4. Education -->
+                        <div class="accordion-item" data-section="education">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="graduation-cap"></i>
+                                    <span>Education</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="education-list" class="repeater-list">
+                                    <!-- Dynamic education blocks here -->
+                                </div>
+                                <button type="button" id="btn-add-education" class="btn btn-outline btn-block mt-3">
+                                    <i data-lucide="plus"></i>
+                                    <span>Add Education</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 5. Skills -->
+                        <div class="accordion-item" data-section="skills">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="star"></i>
+                                    <span>Skills</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="skills-list" class="repeater-list">
+                                    <!-- Dynamic skill blocks here -->
+                                </div>
+                                <button type="button" id="btn-add-skill" class="btn btn-outline btn-block mt-3">
+                                    <i data-lucide="plus"></i>
+                                    <span>Add Skill</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 6. Projects -->
+                        <div class="accordion-item" data-section="projects">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="folder-git"></i>
+                                    <span>Projects</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="projects-list" class="repeater-list">
+                                    <!-- Dynamic project blocks here -->
+                                </div>
+                                <button type="button" id="btn-add-project" class="btn btn-outline btn-block mt-3">
+                                    <i data-lucide="plus"></i>
+                                    <span>Add Project</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 7. Languages -->
+                        <div class="accordion-item" data-section="languages">
+                            <button class="accordion-header">
+                                <span class="accordion-title-wrapper">
+                                    <i data-lucide="languages"></i>
+                                    <span>Languages</span>
+                                </span>
+                                <i data-lucide="chevron-down" class="chevron"></i>
+                            </button>
+                            <div class="accordion-content">
+                                <div id="languages-list" class="repeater-list">
+                                    <!-- Dynamic language blocks here -->
+                                </div>
+                                <button type="button" id="btn-add-language" class="btn btn-outline btn-block mt-3">
+                                    <i data-lucide="plus"></i>
+                                    <span>Add Language</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Right Panel: Resume Paper Preview -->
+                <div class="editor-preview">
+                    <!-- Responsive preview toggle for mobile screen views -->
+                    <div class="preview-toolbar">
+                        <span class="preview-zoom-label">Live Preview</span>
+                        <div class="preview-zoom-controls">
+                            <button id="btn-zoom-out" class="btn btn-icon btn-sm btn-outline" title="Zoom Out"><i data-lucide="zoom-out"></i></button>
+                            <span id="zoom-value" class="zoom-value">100%</span>
+                            <button id="btn-zoom-in" class="btn btn-icon btn-sm btn-outline" title="Zoom In"><i data-lucide="zoom-in"></i></button>
+                        </div>
+                    </div>
+                    <div class="preview-scroll-container">
+                        <div id="resume-page-a4" class="resume-page-a4">
+                            <!-- Template layouts will be rendered here dynamically -->
+                            <div id="resume-preview-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="auth.js"></script>
+    <script src="templates.js"></script>
+    <script src="pdf.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
