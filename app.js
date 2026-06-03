@@ -84,9 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
     setupThemeToggle();
 });
 
-  function initApp() {
-    loadUserResumes();
-    switchView('dashboard-section');
+function initApp() {
+    const currentUser = Auth.getCurrentUser();
+
+    if (currentUser) {
+        document.getElementById('user-display-name').textContent =
+            currentUser.name;
+
+        loadUserResumes();
+        switchView('dashboard-section');
+    } else {
+        switchView('auth-section');
+    }
+}
 }
 // Global View Switcher
 function switchView(viewId) {
