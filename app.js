@@ -84,8 +84,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setupThemeToggle();
 });
 
-    function initApp() {
-    createNewResume();
+   function initApp() {
+    switchView('dashboard-section');
+    loadUserResumes();
 }
 
 // Global View Switcher
