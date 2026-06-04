@@ -82,8 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
     initApp();
     setupEventListeners();
     setupThemeToggle();
-});
 
+    const aiBtn = document.getElementById('ai-summary-btn');
+
+    if (aiBtn) {
+        aiBtn.addEventListener('click', async () => {
+
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    prompt: 'Write a professional resume summary for a software engineer'
+                })
+            });
+
+            const data = await response.json();
+
+            document.getElementById('input-summary').value =
+                data.text;
+        });
+    }
+});
 function initApp() {
     const currentUser = Auth.getCurrentUser();
 
