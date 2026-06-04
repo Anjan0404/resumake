@@ -65,7 +65,49 @@ function formatDescription(desc) {
     // --------------------------------------------------------------------------
     // 1. SLEEK MODERN TEMPLATE
     // --------------------------------------------------------------------------
-    modern(data) {
+  atsClassic(data) {
+    return `
+    <div style="padding:40px;font-family:Arial,sans-serif;color:#000;background:#fff;">
+        <h1 style="margin:0;">${escapeHTML(data.fullName || 'Your Name')}</h1>
+        <h3 style="margin:5px 0 15px 0;">${escapeHTML(data.jobTitle || '')}</h3>
+
+        <p>
+            ${escapeHTML(data.email || '')} |
+            ${escapeHTML(data.phone || '')} |
+            ${escapeHTML(data.location || '')}
+        </p>
+
+        <hr>
+
+        <h2>Professional Summary</h2>
+        <p>${escapeHTML(data.summary || '')}</p>
+
+        <h2>Experience</h2>
+        ${(data.experience || []).map(exp => `
+            <div style="margin-bottom:15px;">
+                <strong>${escapeHTML(exp.title)}</strong><br>
+                ${escapeHTML(exp.company)}<br>
+                ${escapeHTML(exp.start)} - ${escapeHTML(exp.end || 'Present')}
+                <p>${escapeHTML(exp.desc || '')}</p>
+            </div>
+        `).join('')}
+
+        <h2>Education</h2>
+        ${(data.education || []).map(edu => `
+            <div style="margin-bottom:15px;">
+                <strong>${escapeHTML(edu.degree)}</strong><br>
+                ${escapeHTML(edu.school)}
+            </div>
+        `).join('')}
+
+        <h2>Skills</h2>
+        <p>
+            ${(data.skills || []).map(skill => escapeHTML(skill.name)).join(', ')}
+        </p>
+    </div>
+    `;
+},  
+modern(data) {
         const photoHTML = data.photo ? `
             <div class="tmpl-modern-photo-wrap">
                 <img src="${data.photo}" alt="Profile Photo">
