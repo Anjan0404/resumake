@@ -326,7 +326,6 @@ function handleLogout() {
     activeResume = null;
     switchView('auth-section');
 }
-}
 
 // ==========================================================================
 // DASHBOARD LOGIC (RESUMES CRUD)
