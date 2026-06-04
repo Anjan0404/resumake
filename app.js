@@ -322,7 +322,10 @@ function handleLogin(e) {
 }
 
 function handleLogout() {
+    Auth.logout();
     activeResume = null;
+    switchView('auth-section');
+}
 }
 
 // ==========================================================================
