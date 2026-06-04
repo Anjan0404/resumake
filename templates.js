@@ -72,6 +72,30 @@ const Templates = {
             <h1>${escapeHTML(data.fullName || 'Your Name')}</h1>
             <h3>${escapeHTML(data.jobTitle || '')}</h3>
         </div>
+        <hr>
+<h2>Professional Summary</h2>
+<p>${escapeHTML(data.summary || '')}</p>
+
+<h2>Experience</h2>
+${(data.experience || []).map(exp => `
+<div>
+    <strong>${escapeHTML(exp.title)}</strong><br>
+    ${escapeHTML(exp.company)}<br>
+    ${escapeHTML(exp.start)} - ${escapeHTML(exp.end || 'Present')}
+    <p>${escapeHTML(exp.desc || '')}</p>
+</div>
+`).join('')}
+
+<h2>Education</h2>
+${(data.education || []).map(edu => `
+<div>
+    <strong>${escapeHTML(edu.degree)}</strong><br>
+    ${escapeHTML(edu.school)}
+</div>
+`).join('')}
+
+<h2>Skills</h2>
+<p>${(data.skills || []).map(skill => skill.name).join(', ')}</p>
         `;
     },
     // --------------------------------------------------------------------------
