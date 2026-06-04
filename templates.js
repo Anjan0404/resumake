@@ -65,6 +65,44 @@ function formatDescription(desc) {
 // Templates collection
  // Templates collection
 const Templates = {
+
+    atsClassic(data) {
+        // ATS Classic code
+    },
+
+    atsProfessional(data) {
+        // ATS Professional code
+    },
+
+    atsCorporate(data) {
+        // ATS Corporate code
+    },
+
+    atsFresher(data) {
+        // ATS Fresher code
+    },
+
+    harvard(data) {
+        // Harvard code
+    },
+
+    modern(data) {
+        // Modern code
+    },
+
+    creative(data) {
+        // Creative code
+    },
+
+    executive(data) {
+        // Executive code
+    },
+
+    tech(data) {
+        // Tech Vanguard code
+    }
+
+};
     harvard(data) {
     return `
     <div style="padding:50px;font-family:'Times New Roman',serif;">
