@@ -62,6 +62,28 @@ function formatDescription(desc) {
     // Otherwise just return paragraphs
     return lines.map(line => line.trim() ? `<p>${line}</p>` : '').join('');
 }
+// Templates collection
+const Templates = {
+
+    atsClassic(data) {
+        return `
+        ...
+        `;
+    },
+
+    modern(data) {
+        ...
+    },
+
+    creative(data) {
+        ...
+    },
+
+    executive(data) {
+        ...
+    }
+
+};
     // --------------------------------------------------------------------------
     // 1. SLEEK MODERN TEMPLATE
     // --------------------------------------------------------------------------
