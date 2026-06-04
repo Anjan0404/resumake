@@ -65,6 +65,14 @@ const Auth = {
     // Save a new user
     register(name, email, password) {
         const users = this.getUsers();
+        if (name.trim().length < 3) {
+    showToast(
+        'Registration Failed',
+        'Name must be at least 3 characters.',
+        'danger'
+    );
+    return false;
+}
         
         // Validation: email format verification
         const normalizedEmail = email.toLowerCase().trim();
@@ -149,5 +157,30 @@ const Auth = {
     // Check if session is active
     isAuthenticated() {
         return this.getCurrentUser() !== null;
+    },
+};
+forgotPassword(email) {
+    const users = this.getUsers();
+
+    const user = users.find(
+        u => u.email === email.toLowerCase().trim()
+    );
+
+    if (!user) {
+        showToast(
+            'Error',
+            'No account found with this email.',
+            'danger'
+        );
+        return false;
     }
+
+    showToast(
+        'Password Reset',
+        'Demo version: Please create a new account.',
+        'info'
+    );
+
+    return true;
+}
 };
