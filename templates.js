@@ -145,9 +145,8 @@ const Templates = {
         `).join('')}
     </div>
     `;
-}
-
-    atsClassic(data) {
+},
+  atsClassic(data) {
         return `
         <div style="padding:40px;font-family:Arial,sans-serif;color:#000;background:#fff;">
             <h1>${escapeHTML(data.fullName || 'Your Name')}</h1>
