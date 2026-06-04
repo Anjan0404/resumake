@@ -103,7 +103,7 @@ const Templates = {
     }
 
 };
-    harvard(data) {
+    harvard(data) 
     return `
     <div style="padding:50px;font-family:'Times New Roman',serif;">
         <center>
