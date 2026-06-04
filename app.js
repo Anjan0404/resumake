@@ -97,7 +97,6 @@ function initApp() {
         switchView('auth-section');
     }
 }
-}
 // Global View Switcher
 function switchView(viewId) {
     document.querySelectorAll('.view-section').forEach(section => {
