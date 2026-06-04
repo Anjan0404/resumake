@@ -65,6 +65,25 @@ function formatDescription(desc) {
 
 // Templates collection
 const Templates = {
+    ats(data) {
+    return `
+        <div style="padding:40px;font-family:Arial,sans-serif;color:#000;">
+            <h1>${escapeHTML(data.fullName || 'Your Name')}</h1>
+            <h2>${escapeHTML(data.jobTitle || '')}</h2>
+            <hr>
+            <h3>Summary</h3>
+            <p>${escapeHTML(data.summary || '')}</p>
+
+            <h3>Experience</h3>
+            ${(data.experience || []).map(exp => `
+                <div>
+                    <strong>${escapeHTML(exp.title)}</strong>
+                    - ${escapeHTML(exp.company)}
+                </div>
+            `).join('')}
+        </div>
+    `;
+},
     // --------------------------------------------------------------------------
     // 1. SLEEK MODERN TEMPLATE
     // --------------------------------------------------------------------------
