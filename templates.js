@@ -65,6 +65,76 @@ function formatDescription(desc) {
 // Templates collection
  // Templates collection
 const Templates = {
+    harvard(data) {
+    return `
+    <div style="padding:50px;font-family:'Times New Roman',serif;">
+        <center>
+            <h1>${escapeHTML(data.fullName || '')}</h1>
+            <p>${escapeHTML(data.email || '')}</p>
+        </center>
+
+        <h2>Education</h2>
+        ...
+        <h2>Experience</h2>
+        ...
+        <h2>Skills</h2>
+        ...
+    </div>
+    `;
+}
+    atsFresher(data) {
+    return `
+    <div style="padding:40px;font-family:Arial,sans-serif;">
+        <h1>${escapeHTML(data.fullName || '')}</h1>
+
+        <h2>Career Objective</h2>
+        <p>${escapeHTML(data.summary || '')}</p>
+
+        <h2>Education</h2>
+        ${(data.education || []).map(edu => `
+            <div>
+                <strong>${escapeHTML(edu.degree)}</strong>
+                <p>${escapeHTML(edu.school)}</p>
+            </div>
+        `).join('')}
+
+        <h2>Skills</h2>
+        <p>${(data.skills || []).map(s => escapeHTML(s.name)).join(', ')}</p>
+
+        <h2>Projects</h2>
+        ${(data.projects || []).map(p => `
+            <div>
+                <strong>${escapeHTML(p.name)}</strong>
+                <p>${escapeHTML(p.desc || '')}</p>
+            </div>
+        `).join('')}
+    </div>
+    `;
+}
+    atsProfessional(data) {
+    return `
+    <div style="padding:50px;font-family:Calibri,sans-serif;color:#222;">
+        <h1>${escapeHTML(data.fullName || '')}</h1>
+        <p>${escapeHTML(data.jobTitle || '')}</p>
+
+        <hr>
+
+        <h2>Professional Summary</h2>
+        <p>${escapeHTML(data.summary || '')}</p>
+
+        <h2>Skills</h2>
+        <p>${(data.skills || []).map(s => escapeHTML(s.name)).join(', ')}</p>
+
+        <h2>Experience</h2>
+        ${(data.experience || []).map(exp => `
+            <div>
+                <strong>${escapeHTML(exp.title)}</strong> - ${escapeHTML(exp.company)}
+                <p>${escapeHTML(exp.desc || '')}</p>
+            </div>
+        `).join('')}
+    </div>
+    `;
+}
 
     atsClassic(data) {
         return `
