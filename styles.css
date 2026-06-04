@@ -1617,7 +1617,8 @@ body.light-theme .accent-pill.active {
 }
 
 .forgot-password a {
-    color: #60a5fa;
+    color: #93c5fd;
+   fornt-weight:500;
     text-decoration: none;
     font-size: 14px;
 }
