@@ -121,7 +121,7 @@ const Templates = {
         `).join('')}
     </div>
     `;
-}
+},
     atsProfessional(data) {
     return `
     <div style="padding:50px;font-family:Calibri,sans-serif;color:#222;">
