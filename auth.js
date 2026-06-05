@@ -157,7 +157,7 @@ const Auth = {
     // Check if session is active
     isAuthenticated() {
         return this.getCurrentUser() !== null;
-}
+},
 forgotPassword(email) {
     const users = this.getUsers();
 
