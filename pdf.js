@@ -21,7 +21,7 @@ function downloadPDF(containerElement, resumeTitle = 'resume') {
 
     // PDF Configuration
     const opt = {
-        margin:       0,
+        margin:       8,
         filename:     safeFilename,
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
@@ -35,7 +35,7 @@ function downloadPDF(containerElement, resumeTitle = 'resume') {
             format: 'a4', 
             orientation: 'portrait' 
         },
-        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak:    { mode: ['css', 'legacy'] }
     };
 
     // Execute html2pdf promise pipeline
